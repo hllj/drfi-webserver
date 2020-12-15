@@ -1,2 +1,4 @@
 /drfi-flask
 __pycache__
+/uploaded/*
+*.swp

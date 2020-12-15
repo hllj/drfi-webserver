@@ -1,4 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Home page </h1>
+<h1 class="text-center">Home page </h1>
+<h2 class="text-center">Crop your salient object</h2>
+<div class="container container-fluid p-3 border">
+  <form method="POST" action="" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Upload image</label>
+    <input name="photo" type="file" class="form-control mt-3" aria-describedby="emailHelp" placeholder="Your image" accept="image/*">
+  </div>
+  <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</div>
 {% endblock content %}
