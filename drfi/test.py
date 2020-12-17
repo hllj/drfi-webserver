@@ -5,9 +5,9 @@ import argparse
 import os
 
 
-from model import RandomForest, MLP, XGB
-from feature_process import Features
-from region_detect import Super_Region, Region2Csv
+from drfi.model import RandomForest, MLP, XGB
+from drfi.feature_process import Features
+from drfi.region_detect import Super_Region, Region2Csv
 
 C_LIST = [20, 80, 350, 900]
 ROOT_FOLDER = os.getcwd()
@@ -21,7 +21,7 @@ def show_segmentation_level(level, rlist, img_path):
         color = [int(r_color[0]), int(r_color[1]), int(r_color[2])]
         _x, _y = plist
         seg_img[_x, _y] = color
-    cv2.imshow("level {}".format(level), seg_img)
+    # cv2.imshow("level {}".format(level), seg_img)
 
 
 class Img_Data:
@@ -61,7 +61,7 @@ def get_transparent_image(img_path, height, width, Y, threshold):
     img[:, :width, :] = original_img
     mask = Y.repeat(3).reshape([height, width, 3])
     img[:, width:, :] = mask
-    cv2.imshow("Result", img)
+    # cv2.imshow("Result", img)
     # get transparent image
     mask[mask > threshold] = 255
     mask[mask <= threshold] = 0
@@ -84,6 +84,47 @@ def get_fusion_model(fm, model_path_fusion):
         model = XGB()
     model.load_model(model_path_fusion)
     return model
+
+
+def main(
+    img_path,
+    threshold,
+    fm,
+    model_path_same_region,
+    model_path_salience,
+    model_path_fusion,
+):
+
+    RESULT_FOLDER = os.path.join(ROOT_FOLDER, "drfi/data/result/")
+    im_data = Img_Data(img_path)
+
+    rf_simi = RandomForest()
+    rf_simi.load_model(model_path_same_region)
+    rf_sal = RandomForest()
+    rf_sal.load_model(model_path_salience)
+
+    im_data.get_multi_segs(rf_simi)
+    segs_num = len(im_data.rlists)
+    height = im_data.rmat.shape[0]
+    width = im_data.rmat.shape[1]
+    salience_map = np.zeros([segs_num, height, width])
+    for i, rlist in enumerate(im_data.rlists):
+        Y = rf_sal.predict(im_data.feature93s[i])[:, 1]
+        for j, r in enumerate(rlist):
+            salience_map[i][r] = Y[j]
+    X_test = salience_map.reshape([-1, height * width]).T
+    fusion_model = get_fusion_model(fm, model_path_fusion)
+    Y = fusion_model.predict(X_test).reshape([height, width]) * 255
+
+    print("finished~( •̀ ω •́ )y")
+    result_img = get_transparent_image(img_path, height, width, Y, threshold)
+    if os.path.isdir(RESULT_FOLDER) is False:
+        os.mkdir(RESULT_FOLDER)
+    img_name = img_path.split("/")[-1].split(".")[0]
+    result_filename = img_name + ".png"
+    result_path = RESULT_FOLDER + result_filename
+    cv2.imwrite(result_path, result_img)
+    return result_filename, result_path, result_img
 
 
 if __name__ == "__main__":
@@ -144,16 +185,6 @@ if __name__ == "__main__":
         for j, r in enumerate(rlist):
             salience_map[i][r] = Y[j]
     X_test = salience_map.reshape([-1, height * width]).T
-
-    # mlp = MLP()
-    # model_path = "data/model/mlp.pkl"
-    # mlp.load_model(model_path)
-    # Y = mlp.predict(X_test).reshape([height, width]) * 255
-
-    # xgb = XGB()
-    # model_path = "data/model/xgb.pkl"
-    # xgb.load_model(model_path)
-    # Y = xgb.predict(X_test).reshape([height, width]) * 255
 
     fusion_model = get_fusion_model(fm, model_path_fusion)
     Y = fusion_model.predict(X_test).reshape([height, width]) * 255
