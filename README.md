@@ -41,3 +41,7 @@ flask run
 ```
 
 3. Run an inference: Hey, just choose your image, wait for a moment, and get result. That's it.
+
+4. Example:
+
+![Example image](static/images/example.png)
