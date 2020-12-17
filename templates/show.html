@@ -4,9 +4,11 @@
   <div class="row">
     <div class="col-lg-6 border">
       <img src="{{ url_for('download_upload_image', filename=input_img) }}"/>
+      <p>Original image</p>
     </div>
     <div class="col-lg-6 border">
       <img src="{{ url_for('download_output_image', filename=output_img) }}"/>
+      <p>Result image</p>
     </div>
   </div>
 </div>
