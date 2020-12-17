@@ -1,0 +1,12 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+img {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+}
+.row {
+  margin: 0!important;
+}

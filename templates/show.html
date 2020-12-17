@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
-<img src="{{ url_for('download_file', filename=filename) }}"/>
+<div class="w-100">
+  <div class="row">
+    <div class="col-lg-6 border">
+      <img src="{{ url_for('download_file', filename=filename) }}"/>
+    </div>
+    <div class="col-lg-6 border">
+    </div>
+  </div>
+</div>
 {% endblock content%}
