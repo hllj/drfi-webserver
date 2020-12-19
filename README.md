@@ -40,6 +40,8 @@ or
 flask run
 ```
 
+Your server will be started at port 5000, go to localhost:5000 to see the homepage.
+
 3. Run an inference: Hey, just choose your image, wait for a moment, and get result. That's it.
 
 4. Example:
