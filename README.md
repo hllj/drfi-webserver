@@ -53,3 +53,5 @@ Your server will be started at port 5000, go to localhost:5000 to see the homepa
 4. Example:
 
 ![Example image](static/images/example.png)
+
+![Example 1 image](static/images/example_1.png)
