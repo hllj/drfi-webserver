@@ -22,9 +22,15 @@ A deployment for DRFI model. Choose your image and it will help you to crop the 
     pip install -r requirements.txt
     ```
 
+- Create folder for model data and result
+
+  ```bash
+  mkdir data\model data\result
+  ```
+
 2.  Load your trained model:
 
-- Download pretrained model, copy it to drfi/data/model folder.
+- Download pretrained model from this [link](https://drive.google.com/drive/folders/1wCoi5mTWR1RclgQMpRpdx2J7tYeoh5oU?usp=sharing), then copy it to data/model folder.
 
 3.  Run your server:
 
@@ -42,7 +48,7 @@ flask run
 
 Your server will be started at port 5000, go to localhost:5000 to see the homepage.
 
-3. Run an inference: Hey, just choose your image, wait for a moment, and get result. That's it.
+3. Run an inference: Choose your photo and submit.
 
 4. Example:
 
