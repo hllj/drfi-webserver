@@ -1,0 +1,11 @@
+train_size: 5000
+project_folder: ./
+fusion_model_type: MLP
+model_path:
+  - same_region: data/model/same_region.pkl
+  - salience: data/model/salience.pkl
+  - fusion: data/model/mlp.pkl
+inference:
+  - img_path: data/MSRA-B/10.jpg
+  - threshold: 50
+  - output: data/result/

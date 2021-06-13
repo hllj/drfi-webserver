@@ -1,7 +1,7 @@
 /drfi-flask
-/drfi/data/model/*
-/drfi/data/MSRA-B/*
-drfi/data/result
+data/model/*
+data/MSRA-B/*
+data/result/*
 __pycache__
 /uploaded/*
 *.swp
